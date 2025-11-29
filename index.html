@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workout Counter</title>
+
+<link rel="manifest" href="manifest.json">
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
+<style>
+    body { font-family: Arial; text-align: center; padding: 20px; background: #f4f4f4; }
+    .box { background: white; border-radius: 10px; padding: 20px; margin: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+    h2 { margin-bottom: 10px; }
+    .count { font-size: 48px; margin: 10px 0; font-weight: bold; }
+    button { padding: 10px 25px; font-size: 18px; border: none; border-radius: 10px; background: #000; color: white; }
+</style>
+
+</head>
+<body>
+
+<h1>Workout Counter</h1>
+
+<div class="box">
+    <h2>Push Up</h2>
+    <div id="pushup" class="count">10000</div>
+    <button onclick="decrease('pushup')">-1</button>
+</div>
+
+<div class="box">
+    <h2>Pull Up</h2>
+    <div id="pullup" class="count">10000</div>
+    <button onclick="decrease('pullup')">-1</button>
+</div>
+
+<div class="box">
+    <h2>Sit Up</h2>
+    <div id="situp" class="count">10000</div>
+    <button onclick="decrease('situp')">-1</button>
+</div>
+
+<script>
+function loadCounter(id){
+    return localStorage.getItem(id) ? parseInt(localStorage.getItem(id)) : 10000;
+}
+
+function updateDisplay(id, value){
+    document.getElementById(id).innerText = value;
+    localStorage.setItem(id, value);
+}
+
+function decrease(id){
+    let value = loadCounter(id);
+    if(value > 0){
+        value -= 1;
+        updateDisplay(id, value);
+    }
+}
+
+updateDisplay('pushup', loadCounter('pushup'));
+updateDisplay('pullup', loadCounter('pullup'));
+updateDisplay('situp', loadCounter('situp'));
+</script>
+
+</body>
+</html>
